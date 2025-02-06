@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Phone {
+  id          Int       @id @default(autoincrement())
+  status      status
+  brand       String
+  model       String
+  image       String 
+  releaseDate String
+  price       Float
+  specs       Spec[]   
+  slug        String    @unique
+}
+
+enum status {
+  released
+  upcoming
+}
+
+model Spec {
+  id                Int          @id @default(autoincrement())
+  phoneId      Int          @unique
+  Phone        Phone   @relation(fields: [phoneId], references: [id])
+
+  network           String
+  dimensions        String
+  weight            Int
+  build             String
+  sim               String
+  displayType       String
+  displaySize       Float
+  resolution        String
+  os                String
+  chipset           String
+  cpu               String
+  gpu               String
+  memoryInternal    String
+  memoryExternal    String?
+  mainCamera        String
+  selfieCamera      String
+  sound             String
+  wlan              String
+  bluetooth         String
+  gps               String
+  nfc               Boolean
+  usb               String
+  battery           String
+  charging          ChargingType
+  colors            String
+    pros            String []  
+  cons          String []
+    ratings     Json
+}
+
+enum ChargingType {
+  wired   
+  wireless                  
+  reversed    
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model Admin {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  name     String
+  email    String   @unique
+  password String
+  role     Role
+  image    String?
+  blogs    Blog[]
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  name     String
+  email    String   @unique
+  password String
+  role     Role
+  image    String?
+  comments Comment[]
+}
+
+model Comment {
+  id          Int         @id @default(autoincrement())
+  content     String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  userId      Int     
+  user        User        @relation(fields: [userId], references: [id])
+  phoneId Int?
+  blogId      Int?
+  blog        Blog?       @relation(fields: [blogId], references: [id])
+}
+
+model Blog {
+  id          Int         @id @default(autoincrement())
+  title       String
+  content     String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  adminId     Int         // Foreign key for admin
+  admin       Admin       @relation(fields: [adminId], references: [id])
+  comments    Comment[]   // Relation to blog comments
+}
+
