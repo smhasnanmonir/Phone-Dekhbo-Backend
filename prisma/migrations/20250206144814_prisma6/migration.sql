@@ -45,7 +45,7 @@ CREATE TABLE "Spec" (
     "wlan" TEXT NOT NULL,
     "bluetooth" TEXT NOT NULL,
     "gps" TEXT NOT NULL,
-    "nfc" BOOLEAN NOT NULL,
+    "nfc" TEXT NOT NULL,
     "usb" TEXT NOT NULL,
     "battery" TEXT NOT NULL,
     "charging" "ChargingType" NOT NULL,

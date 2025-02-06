@@ -26,7 +26,7 @@ const insertPhoneIntoDBController = async (req: Request, res: Response) => {
       message: "Phone inserted into the database successfully",
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: "Error inserting phone into the database",

@@ -49,7 +49,7 @@ model Spec {
   wlan              String
   bluetooth         String
   gps               String
-  nfc               Boolean
+  nfc               String
   usb               String
   battery           String
   charging          ChargingType

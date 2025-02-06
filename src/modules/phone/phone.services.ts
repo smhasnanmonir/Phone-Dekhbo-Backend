@@ -1,5 +1,6 @@
 import prisma from "../../shared/prisma";
 import generateSlug from "../../shared/slug-generator";
+import { PhoneCreateInput } from "./phone.iterface";
 
 const getPhonesFromDBService = async () => {
   const phones = await prisma.phone.findMany({
@@ -10,11 +11,10 @@ const getPhonesFromDBService = async () => {
   return phones;
 };
 
-const insertPhoneIntoDBService = async (props) => {
+const insertPhoneIntoDBService = async (props: PhoneCreateInput) => {
   const slug = generateSlug(props.model);
-  const result = await prisma.$transaction(async (prisma) => {
-    // Insert the phone and store the result (which includes the generated ID)
-    const phone = await prisma.phone.create({
+  const result = await prisma.$transaction(async (transactionClient) => {
+    const phone = await transactionClient.phone.create({
       data: {
         status: props.status,
         brand: props.brand,
@@ -26,7 +26,7 @@ const insertPhoneIntoDBService = async (props) => {
       },
     });
 
-    await prisma.spec.create({
+    await transactionClient.spec.create({
       data: {
         phoneId: phone.id,
         network: props.specs.network,
