@@ -9,3 +9,5 @@
 
 .env*
 .env.local
+
+/$XDG_RUNTIME_DIR

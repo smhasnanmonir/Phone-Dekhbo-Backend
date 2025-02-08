@@ -29,40 +29,21 @@ model Spec {
   phoneId      Int          @unique
   Phone        Phone   @relation(fields: [phoneId], references: [id])
 
-  network           String
-  dimensions        String
-  weight            Int
-  build             String
-  sim               String
-  displayType       String
-  displaySize       Float
-  resolution        String
+  network           Json
+  body Json
+  display Json
   os                String
-  chipset           String
-  cpu               String
-  gpu               String
-  memoryInternal    String
-  memoryExternal    String?
-  mainCamera        String
-  selfieCamera      String
-  sound             String
-  wlan              String
-  bluetooth         String
-  gps               String
-  nfc               String
-  usb               String
-  battery           String
-  charging          ChargingType
+  chipset Json
+  memory Json
+  camera Json
+  sound             Json
+  connection Json
+  ports Json
+  battery Json
   colors            String
     pros            String []  
   cons          String []
     ratings     Json
-}
-
-enum ChargingType {
-  wired   
-  wireless                  
-  reversed    
 }
 
 enum Role {

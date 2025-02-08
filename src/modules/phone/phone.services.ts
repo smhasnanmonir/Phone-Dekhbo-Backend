@@ -1,6 +1,6 @@
 import prisma from "../../shared/prisma";
 import generateSlug from "../../shared/slug-generator";
-import { PhoneCreateInput } from "./phone.iterface";
+import { InsertPhoneProps } from "./phone.iterface";
 
 const getPhonesFromDBService = async () => {
   const phones = await prisma.phone.findMany({
@@ -11,8 +11,9 @@ const getPhonesFromDBService = async () => {
   return phones;
 };
 
-const insertPhoneIntoDBService = async (props: PhoneCreateInput) => {
-  const slug = generateSlug(props.model);
+const insertPhoneIntoDBService = async (props: InsertPhoneProps) => {
+  console.log(props);
+  const slugGenerator = generateSlug(props.model);
   const result = await prisma.$transaction(async (transactionClient) => {
     const phone = await transactionClient.phone.create({
       data: {
@@ -22,7 +23,7 @@ const insertPhoneIntoDBService = async (props: PhoneCreateInput) => {
         image: props.image,
         releaseDate: props.releaseDate,
         price: props.price,
-        slug: slug, // Add the slug to the database
+        slug: slugGenerator, // Add the slug to the database
       },
     });
 
@@ -30,32 +31,70 @@ const insertPhoneIntoDBService = async (props: PhoneCreateInput) => {
       data: {
         phoneId: phone.id,
         network: props.specs.network,
-        dimensions: props.specs.dimensions,
-        weight: props.specs.weight,
-        build: props.specs.build,
-        sim: props.specs.sim,
-        displayType: props.specs.displayType,
-        displaySize: props.specs.displaySize,
-        resolution: props.specs.resolution,
+        body: {
+          dimensions: props.specs.body.dimensions,
+          weight: props.specs.body.weight,
+          build: props.specs.body.build,
+          sim: props.specs.body.sim,
+        },
+        display: {
+          displayType: props.specs.display.displayType,
+          size: props.specs.display.size,
+          resolution: props.specs.display.resolution,
+          protection: props.specs.display.protection,
+          features: props.specs.display.features,
+          contrastRatio: props.specs.display.contrastRatio,
+          brightness: props.specs.display.brightness,
+          colors: props.specs.display.colors,
+          aspectRatio: props.specs.display.aspectRatio,
+        },
         os: props.specs.os,
-        chipset: props.specs.chipset,
-        cpu: props.specs.cpu,
-        gpu: props.specs.gpu,
-        memoryInternal: props.specs.memoryInternal,
-        memoryExternal: props.specs.memoryExternal ?? null,
-        mainCamera: props.specs.mainCamera,
-        selfieCamera: props.specs.selfieCamera,
-        sound: props.specs.sound,
-        wlan: props.specs.wlan,
-        bluetooth: props.specs.bluetooth,
-        gps: props.specs.gps,
-        nfc: props.specs.nfc,
-        usb: props.specs.usb,
-        battery: props.specs.battery,
-        charging: props.specs.charging,
-        colors: props.specs.colors,
+        chipset: {
+          manufacturer: props.specs.chipset.manufacturer,
+          model: props.specs.chipset.model,
+          architecture: props.specs.chipset.architecture,
+          coprocessor: props.specs.chipset.coprocessor,
+          gpu: props.specs.chipset.gpu,
+        },
+        memory: {
+          internal: props.specs.memory.internal,
+          external: props.specs.memory.external,
+        },
+        camera: {
+          main: props.specs.camera.main,
+          ultrawide: props.specs.camera.ultrawide,
+          telephoto: props.specs.camera.telephoto,
+          photo: props.specs.camera.photo,
+          video: props.specs.camera.video,
+          features: props.specs.camera.features,
+          lens: props.specs.camera.lens,
+          other: props.specs.camera.other,
+        },
+        sound: {
+          speakerType: props.specs.sound.speakerType,
+          noiseCancellation: props.specs.sound.noiseCancellation,
+          microphone: props.specs.sound.microphone,
+          audioFeatures: props.specs.sound.audioFeatures,
+        },
+        connection: {
+          wlan: props.specs.connection.wifi,
+          bluetooth: props.specs.connection.bluetooth,
+          nfc: props.specs.connection.nfc,
+          usb: props.specs.connection.usb,
+        },
+        ports: {
+          headphoneJack: props.specs.ports.headphoneJack,
+          chargingType: props.specs.ports.chargingType,
+        },
+        battery: {
+          capacity: props.specs.battery.capacity,
+          fastCharge: props.specs.battery.fastCharge,
+          chargingTime: props.specs.battery.chargingTime,
+          dischargingTime: props.specs.battery.dischargingTime,
+        },
         pros: props.specs.pros,
         cons: props.specs.cons,
+        colors: props.specs.colors,
         ratings: {
           display: props.specs.ratings.display,
           battery: props.specs.ratings.battery,

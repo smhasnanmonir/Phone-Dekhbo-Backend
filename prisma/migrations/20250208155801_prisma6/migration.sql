@@ -2,9 +2,6 @@
 CREATE TYPE "status" AS ENUM ('released', 'upcoming');
 
 -- CreateEnum
-CREATE TYPE "ChargingType" AS ENUM ('wired', 'wireless', 'reversed');
-
--- CreateEnum
 CREATE TYPE "Role" AS ENUM ('ADMIN', 'USER');
 
 -- CreateTable
@@ -25,30 +22,17 @@ CREATE TABLE "Phone" (
 CREATE TABLE "Spec" (
     "id" SERIAL NOT NULL,
     "phoneId" INTEGER NOT NULL,
-    "network" TEXT NOT NULL,
-    "dimensions" TEXT NOT NULL,
-    "weight" INTEGER NOT NULL,
-    "build" TEXT NOT NULL,
-    "sim" TEXT NOT NULL,
-    "displayType" TEXT NOT NULL,
-    "displaySize" DOUBLE PRECISION NOT NULL,
-    "resolution" TEXT NOT NULL,
+    "network" JSONB NOT NULL,
+    "body" JSONB NOT NULL,
+    "display" JSONB NOT NULL,
     "os" TEXT NOT NULL,
-    "chipset" TEXT NOT NULL,
-    "cpu" TEXT NOT NULL,
-    "gpu" TEXT NOT NULL,
-    "memoryInternal" TEXT NOT NULL,
-    "memoryExternal" TEXT,
-    "mainCamera" TEXT NOT NULL,
-    "selfieCamera" TEXT NOT NULL,
-    "sound" TEXT NOT NULL,
-    "wlan" TEXT NOT NULL,
-    "bluetooth" TEXT NOT NULL,
-    "gps" TEXT NOT NULL,
-    "nfc" TEXT NOT NULL,
-    "usb" TEXT NOT NULL,
-    "battery" TEXT NOT NULL,
-    "charging" "ChargingType" NOT NULL,
+    "chipset" JSONB NOT NULL,
+    "memory" JSONB NOT NULL,
+    "camera" JSONB NOT NULL,
+    "sound" JSONB NOT NULL,
+    "connection" JSONB NOT NULL,
+    "ports" JSONB NOT NULL,
+    "battery" JSONB NOT NULL,
     "colors" TEXT NOT NULL,
     "pros" TEXT[],
     "cons" TEXT[],
