@@ -8,7 +8,7 @@ import { authRouter } from "./modules/auth/auth.router";
 const app: Application = express();
 app.use(cors());
 app.use(express.json());
-
+import cookieParser from "cookie-parser";
 app.use(limiter);
 
 app.get("/", (req, res) => {
