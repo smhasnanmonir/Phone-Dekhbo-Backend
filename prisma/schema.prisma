@@ -70,7 +70,6 @@ model User {
   password String
   role     Role
   image    String?
-  comments Comment[]
 }
 
 model Comment {
@@ -79,10 +78,8 @@ model Comment {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   userId      Int     
-  user        User        @relation(fields: [userId], references: [id])
   phoneId Int?
   blogId      Int?
-  blog        Blog?       @relation(fields: [blogId], references: [id])
 }
 
 model Blog {
@@ -91,8 +88,7 @@ model Blog {
   content     String
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  adminId     Int         // Foreign key for admin
+  adminId     Int
   admin       Admin       @relation(fields: [adminId], references: [id])
-  comments    Comment[]   // Relation to blog comments
 }
 

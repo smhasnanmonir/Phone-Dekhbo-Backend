@@ -8,7 +8,6 @@ const zodSchemaValidator = (
   next: NextFunction
 ) => {
   try {
-    console.log("From Zod");
     phoneZodSchema.insertPhoneSchema.parse(req.body.data);
     next();
   } catch (e: unknown) {
