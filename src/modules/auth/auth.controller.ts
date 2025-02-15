@@ -41,6 +41,21 @@ const userLoginController: RequestHandler = tryCatch(
   }
 );
 
+const userCookieController: RequestHandler = tryCatch(
+  async (req: Request, res: Response) => {
+    const { refreshToken } = req.cookies;
+    const result = await userAuthServices.userCookieService(refreshToken);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "user data fetched.",
+      data: result,
+    });
+  }
+);
+
 export const userAuthController = {
   userLoginController,
+  userCookieController,
 };

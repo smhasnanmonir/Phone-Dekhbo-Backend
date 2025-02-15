@@ -10,6 +10,6 @@ router.post(
   zodSchemaValidator(authZodSchema.loginZodSchema),
   userAuthController.userLoginController
 );
-router.post("/cookie", userAuthController.userLoginController);
+router.get("/cookie", userAuthController.userCookieController);
 
 export const authRouter = router;

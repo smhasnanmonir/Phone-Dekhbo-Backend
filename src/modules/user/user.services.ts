@@ -9,7 +9,7 @@ const userCreateService = async (props: IUser) => {
     props.password,
     Number(salt)
   );
-  if (await isUserExist(props.email, props.username)) {
+  if (await isUserExist(props.email)) {
     throw new Error("User already exists!");
   }
   const result = await prisma.user.create({

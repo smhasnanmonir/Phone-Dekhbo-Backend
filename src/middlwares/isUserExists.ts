@@ -1,10 +1,10 @@
 import prisma from "../shared/prisma";
 
-async function isUserExist(email: string, username: string): Promise<boolean> {
+async function isUserExist(email: string): Promise<boolean> {
   try {
     const user = await prisma.user.findFirst({
       where: {
-        OR: [{ email: email }, { username: username }],
+        email,
       },
     });
     return user !== null;

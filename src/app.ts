@@ -4,11 +4,12 @@ import { phoneRouter } from "./modules/phone/phone.router";
 import limiter from "./middlwares/ratelimiter";
 import { userRouter } from "./modules/user/user.router";
 import { authRouter } from "./modules/auth/auth.router";
+import cookieParser from "cookie-parser";
 
 const app: Application = express();
 app.use(cors());
 app.use(express.json());
-import cookieParser from "cookie-parser";
+app.use(cookieParser());
 app.use(limiter);
 
 app.get("/", (req, res) => {
