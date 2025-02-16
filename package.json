@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start:prod": "node ./dist/server.js",
     "start": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/server.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --preview-feature",
