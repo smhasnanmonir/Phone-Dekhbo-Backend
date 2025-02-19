@@ -1,5 +1,8 @@
-import { Request, Response } from "express";
+import { Request, RequestHandler, Response } from "express";
 import { phoneServices } from "./phone.services";
+import tryCatch from "../../shared/tryCatch";
+import sendResponse from "../../shared/sendResponse";
+import httpStatus from "http-status";
 
 const getPhonesFromDBController = async (req: Request, res: Response) => {
   try {
@@ -35,7 +38,29 @@ const insertPhoneIntoDBController = async (req: Request, res: Response) => {
   }
 };
 
+const getPhoneFromSlugFromDBController: RequestHandler = tryCatch(
+  async (req: Request, res: Response) => {
+    const slug: string = req.params.slug;
+    const result = await phoneServices.getPhoneFromSlugFromDBService(slug);
+    if (result != null) {
+      sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Phone Data fetched successfully",
+        data: result,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "No match data found after searching it wih slug.",
+        data: "No phone found",
+      });
+    }
+  }
+);
+
 export const phoneController = {
   getPhonesFromDBController,
   insertPhoneIntoDBController,
+  getPhoneFromSlugFromDBController,
 };

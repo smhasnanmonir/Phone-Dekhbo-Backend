@@ -1,5 +1,6 @@
 import prisma from "../../shared/prisma";
 import generateSlug from "../../shared/slug-generator";
+
 import { InsertPhoneProps } from "./phone.iterface";
 
 const getPhonesFromDBService = async () => {
@@ -111,7 +112,20 @@ const insertPhoneIntoDBService = async (props: InsertPhoneProps) => {
   return result;
 };
 
+const getPhoneFromSlugFromDBService = async (props: string) => {
+  const result = await prisma.phone.findUnique({
+    where: {
+      slug: props,
+    },
+    include: {
+      specs: {},
+    },
+  });
+  return result;
+};
+
 export const phoneServices = {
   getPhonesFromDBService,
   insertPhoneIntoDBService,
+  getPhoneFromSlugFromDBService,
 };

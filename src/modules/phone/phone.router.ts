@@ -8,7 +8,6 @@ const router = express.Router();
 
 router.get(
   "/get-phones", // @ts-ignore
-  auth("ADMIN"),
   phoneController.getPhonesFromDBController
 );
 
@@ -16,6 +15,11 @@ router.post(
   "/insert-phones",
   zodSchemaValidator(phoneZodSchema.insertPhoneSchema),
   phoneController.insertPhoneIntoDBController
+);
+
+router.get(
+  "/get-phone-slug/:slug",
+  phoneController.getPhoneFromSlugFromDBController
 );
 
 export const phoneRouter = router;

@@ -20,7 +20,14 @@ const auth = (...roles: string[]) => {
       console.log(token);
       const decoded = decodeToken(token, "messi2024") as JwtPayload;
 
-      console.log(decoded?.role);
+      //error if not decoded
+
+      if (!decoded) {
+        return res.status(401).json({
+          success: false,
+          message: "Unauthorized: Invalid or expired token.",
+        });
+      }
 
       if (roles.length && !roles.includes(decoded.role)) {
         return res.status(403).json({
@@ -28,6 +35,7 @@ const auth = (...roles: string[]) => {
           message: "Forbidden: You are not authorized to access this resource.",
         });
       }
+
       next();
     } catch (err) {
       next(err);
