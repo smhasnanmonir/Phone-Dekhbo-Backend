@@ -59,8 +59,30 @@ const getPhoneFromSlugFromDBController: RequestHandler = tryCatch(
   }
 );
 
+const getLatestPhoneFromDBController: RequestHandler = tryCatch(
+  async (req: Request, res: Response) => {
+    const slug: string = req.params.slug;
+    const result = await phoneServices.getLatestPhoneFromDBService();
+    if (result != null) {
+      sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Phone Data fetched successfully",
+        data: result,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "No match data found after searching it wih slug.",
+        data: "No phone found",
+      });
+    }
+  }
+);
+
 export const phoneController = {
   getPhonesFromDBController,
   insertPhoneIntoDBController,
   getPhoneFromSlugFromDBController,
+  getLatestPhoneFromDBController,
 };

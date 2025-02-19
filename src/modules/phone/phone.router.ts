@@ -21,5 +21,9 @@ router.get(
   "/get-phone-slug/:slug",
   phoneController.getPhoneFromSlugFromDBController
 );
+router.get(
+  "/get-latest-phone-home",
+  phoneController.getLatestPhoneFromDBController
+);
 
 export const phoneRouter = router;

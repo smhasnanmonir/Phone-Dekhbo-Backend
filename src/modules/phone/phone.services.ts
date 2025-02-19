@@ -4,11 +4,7 @@ import generateSlug from "../../shared/slug-generator";
 import { InsertPhoneProps } from "./phone.iterface";
 
 const getPhonesFromDBService = async () => {
-  const phones = await prisma.phone.findMany({
-    include: {
-      specs: {},
-    },
-  });
+  const phones = await prisma.phone.findMany({});
   return phones;
 };
 
@@ -124,8 +120,19 @@ const getPhoneFromSlugFromDBService = async (props: string) => {
   return result;
 };
 
+const getLatestPhoneFromDBService = async () => {
+  const result = await prisma.phone.findMany({
+    orderBy: {
+      id: "desc",
+    },
+    take: 15,
+  });
+  return result;
+};
+
 export const phoneServices = {
   getPhonesFromDBService,
   insertPhoneIntoDBService,
   getPhoneFromSlugFromDBService,
+  getLatestPhoneFromDBService,
 };
