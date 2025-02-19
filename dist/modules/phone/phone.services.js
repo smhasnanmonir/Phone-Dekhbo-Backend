@@ -16,11 +16,7 @@ exports.phoneServices = void 0;
 const prisma_1 = __importDefault(require("../../shared/prisma"));
 const slug_generator_1 = __importDefault(require("../../shared/slug-generator"));
 const getPhonesFromDBService = () => __awaiter(void 0, void 0, void 0, function* () {
-    const phones = yield prisma_1.default.phone.findMany({
-        include: {
-            specs: {},
-        },
-    });
+    const phones = yield prisma_1.default.phone.findMany({});
     return phones;
 });
 const insertPhoneIntoDBService = (props) => __awaiter(void 0, void 0, void 0, function* () {
@@ -119,7 +115,29 @@ const insertPhoneIntoDBService = (props) => __awaiter(void 0, void 0, void 0, fu
     }));
     return result;
 });
+const getPhoneFromSlugFromDBService = (props) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.phone.findUnique({
+        where: {
+            slug: props,
+        },
+        include: {
+            specs: {},
+        },
+    });
+    return result;
+});
+const getLatestPhoneFromDBService = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield prisma_1.default.phone.findMany({
+        orderBy: {
+            id: "desc",
+        },
+        take: 15,
+    });
+    return result;
+});
 exports.phoneServices = {
     getPhonesFromDBService,
     insertPhoneIntoDBService,
+    getPhoneFromSlugFromDBService,
+    getLatestPhoneFromDBService,
 };

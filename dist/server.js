@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const port = 3004;
+const port = process.env.PORT || 3004;
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const server = app_1.default.listen(port, () => {

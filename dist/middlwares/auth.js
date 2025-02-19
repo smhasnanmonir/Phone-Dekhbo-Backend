@@ -23,7 +23,13 @@ const auth = (...roles) => {
             const token = req.headers.authorization;
             console.log(token);
             const decoded = (0, decodeToken_1.decodeToken)(token, "messi2024");
-            console.log(decoded === null || decoded === void 0 ? void 0 : decoded.role);
+            //error if not decoded
+            if (!decoded) {
+                return res.status(401).json({
+                    success: false,
+                    message: "Unauthorized: Invalid or expired token.",
+                });
+            }
             if (roles.length && !roles.includes(decoded.role)) {
                 return res.status(403).json({
                     success: false,
